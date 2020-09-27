@@ -24,8 +24,12 @@ static int minimax(t_position position, int depth,
     if (!place_the_pawn(board, position, color)) {
         return -1;
     }
+    if (has_won_the_game(board, position, color)) {
+        add_pawn(board, position, EMPTY);
+        return INT_MAX;
+    }
 
-    if (depth == 0 || has_won_the_game(board, position, color)) {
+    if (depth == 0) {
         eval = evaluate(board, position, color);
         add_pawn(board, position, EMPTY);
         return eval;
@@ -109,10 +113,11 @@ t_position get_best_move(int board[BOARD_SIZE][BOARD_SIZE], int color) {
                 has_a_pawn_near(board, current_position) &&
                 !free_threes(board, current_position, color)) {
 
-                if (best_score == INT_MAX) {
+                current_score = minimax(current_position, MAX_MINMAX_DEPTH, INT_MIN, INT_MAX, 0, board, color);
+
+                if (current_score == INT_MAX) {
                     return best_position;
                 }
-                current_score = minimax(current_position, MAX_MINMAX_DEPTH, INT_MIN, INT_MAX, 0, board, color);
 
                 printf("SCORE %d x: %d y: %d\n", current_score, current_position.x, current_position.y);
 

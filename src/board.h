@@ -9,7 +9,7 @@
 # define WHITE 1
 # define BLACK 2
 # define MIN_TO_WIN 5
-# define MAX_MINMAX_DEPTH 2
+# define MAX_MINMAX_DEPTH 4
 # define HORIZONTAL_TOP {-1, 0}
 # define HORIZONTAL_BOT {1, 0}
 # define VERTICAL_lEFT {0, -1}

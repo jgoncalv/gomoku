@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/jgoncalv/CLionProjects/gomoku/main.c
-stdio.h
--
-src/board.h
-/Users/jgoncalv/CLionProjects/gomoku/src/board.h
-src/move/move.h
-/Users/jgoncalv/CLionProjects/gomoku/src/move/move.h
-
 /Users/jgoncalv/CLionProjects/gomoku/src/board.h
 stdio.h
 -
@@ -27,6 +19,10 @@ limits.h
 -
 ../board.h
 /Users/jgoncalv/CLionProjects/gomoku/src/board.h
+
+/Users/jgoncalv/CLionProjects/gomoku/src/move/move.c
+move.h
+/Users/jgoncalv/CLionProjects/gomoku/src/move/move.h
 
 /Users/jgoncalv/CLionProjects/gomoku/src/move/move.h
 limits.h
