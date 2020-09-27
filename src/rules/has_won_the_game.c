@@ -12,14 +12,9 @@ static int count_align_pawn(int board[BOARD_SIZE][BOARD_SIZE], t_position positi
     while (i < MIN_TO_WIN) {
         npos.x = position.x + i * dir.x;
         npos.y = position.y + i * dir.y;
+        if (!is_pawn_in_the_board(npos) || !is_pawn_color(board, npos, color)) break;
 
-        if (!is_pawn_in_the_board(npos)) break;
-
-        if (is_pawn_color(board, npos, color)) {
-            count++;
-        } else {
-            break;
-        }
+        count++;
         i++;
     }
     return count;
@@ -71,21 +66,21 @@ int has_won_the_game(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int
     }
 
     // Check more two if ones have been changed
-    int i = 1;
-    while (i <= 2) {
-        if (in_case_of_captures(board, position, color, g_directions.diagonal_top_right, i) ||
-                in_case_of_captures(board, position, color, g_directions.diagonal_bot_left, i) ||
-                in_case_of_captures(board, position, color, g_directions.diagonal_bot_right, i) ||
-                in_case_of_captures(board, position, color, g_directions.diagonal_top_left, i) ||
-                in_case_of_captures(board, position, color, g_directions.horizontal_top, i) ||
-                in_case_of_captures(board, position, color, g_directions.horizontal_bot, i) ||
-                in_case_of_captures(board, position, color, g_directions.vertical_left, i) ||
-                in_case_of_captures(board, position, color, g_directions.vertical_right, i)
-        ) {
-            return 1;
-        }
-        i++;
-    }
+//    int i = 1;
+//    while (i <= 2) {
+//        if (in_case_of_captures(board, position, color, g_directions.diagonal_top_right, i) ||
+//                in_case_of_captures(board, position, color, g_directions.diagonal_bot_left, i) ||
+//                in_case_of_captures(board, position, color, g_directions.diagonal_bot_right, i) ||
+//                in_case_of_captures(board, position, color, g_directions.diagonal_top_left, i) ||
+//                in_case_of_captures(board, position, color, g_directions.horizontal_top, i) ||
+//                in_case_of_captures(board, position, color, g_directions.horizontal_bot, i) ||
+//                in_case_of_captures(board, position, color, g_directions.vertical_left, i) ||
+//                in_case_of_captures(board, position, color, g_directions.vertical_right, i)
+//        ) {
+//            return 1;
+//        }
+//        i++;
+//    }
 
     return 0;
 }

@@ -14,6 +14,50 @@ t_direction g_directions = {
         DIAGONAL_BOT_LEFT,
 };
 
+t_position DIRECTIONS[] = {
+        HORIZONTAL_TOP,
+        HORIZONTAL_BOT,
+        VERTICAL_lEFT,
+        VERTICAL_RIGHT,
+        DIAGONAL_TOP_LEFT,
+        DIAGONAL_BOT_RIGHT,
+        DIAGONAL_TOP_RIGHT,
+        DIAGONAL_BOT_LEFT
+};
+
+void print_board(int board[BOARD_SIZE][BOARD_SIZE]) {
+    // print column index
+    printf("   ");
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        int col = i + 1;
+        printf("%d", col);
+        printf(col < 10 ? "  " : " ");
+    }
+    printf("\n");
+
+    // print row index as well as each square on board
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        char row = 'A' + i;
+        printf("%c  ", row);
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            char c = ' ';
+            switch (board[i][j]) {
+                case EMPTY :
+                    c = '.';
+                    break;
+                case BLACK :
+                    c = 'x';
+                    break;
+                case WHITE :
+                    c = 'o';
+                    break;
+            }
+            printf("%c  ", c);
+        }
+        printf("\n");
+    }
+}
+
 int get_opposite_pawn_color(int color) {
     return color == BLACK ? WHITE : BLACK;
 }
@@ -37,74 +81,29 @@ void add_pawn(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int color)
 int place_the_pawn(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int color) {
     if (is_pawn_in_the_board(position) && is_pawn_color(board, position, EMPTY)) {
         // Apply the rules
-        if (!free_threes(board, position, color)) {
+//        if (!free_threes(board, position, color)) {
             add_pawn(board, position, color);
+            // TODO: Uncomment
 //            captures(board, position, color);
             return 1;
-        }
+//        }
     }
     return 0;
 }
 
-static int there_is_a_pawn(int board[BOARD_SIZE][BOARD_SIZE], t_position position, t_position direction) {
+int has_a_pawn_near(int board[BOARD_SIZE][BOARD_SIZE], t_position pos) {
+    int i = 0;
     t_position test_pos;
-    int i = 1;
 
-//    while (i < MIN_TO_WIN) {
-        test_pos.x = position.x + i * direction.x;
-        test_pos.y = position.y + i * direction.y;
+    while (i < sizeof(DIRECTIONS)) {
+        test_pos.y = pos.y + DIRECTIONS[i].y;
+        test_pos.x = pos.x + DIRECTIONS[i].x;
         if (is_pawn_in_the_board(test_pos)) {
-            // If we find something else than EMPTY pawn we return true
             if (!is_pawn_color(board, test_pos, EMPTY)) {
                 return 1;
             }
         }
-//        i++;
-//    }
-    // We didn't not found any pawn arround;
+        i++;
+    }
     return 0;
-}
-
-// Find the position nearest pawn at 5 row max
-t_position find_nearest_position(int board[BOARD_SIZE][BOARD_SIZE], t_position pos) {
-    // Maybe the first one is a bad position so we modify
-    if (!is_pawn_in_the_board(pos)) {
-        pos.x = 0;
-        pos.y++;
-    }
-    while (is_pawn_in_the_board(pos)) {
-        while (is_pawn_in_the_board(pos)) {
-
-            if (is_pawn_color(board, pos, EMPTY)) {
-
-                // Checking this:
-                // . c . . . c . . . c .
-                // . . c . . c . . c . .
-                // . . . c . c . c . . .
-                // . . . . c c c . . . .
-                // . c c c c x c c c c .
-                // . . . . c c c . . . .
-                // . . . c . c . c . . .
-                // . . c . . c . . c . .
-                // . c . . . c . . . c .
-                if (there_is_a_pawn(board, pos, g_directions.horizontal_bot) ||
-                    there_is_a_pawn(board, pos, g_directions.horizontal_top) ||
-                    there_is_a_pawn(board, pos, g_directions.vertical_right) ||
-                    there_is_a_pawn(board, pos, g_directions.vertical_left) ||
-                    there_is_a_pawn(board, pos, g_directions.diagonal_bot_right) ||
-                    there_is_a_pawn(board, pos, g_directions.diagonal_bot_left) ||
-                    there_is_a_pawn(board, pos, g_directions.diagonal_top_left) ||
-                    there_is_a_pawn(board, pos, g_directions.diagonal_top_right)) {
-                    return pos;
-                }
-            }
-            pos.x++;
-        }
-        pos.x = 0;
-        pos.y++;
-    }
-    // If we haven't found anything but it should not be possible because we have put the black at the middle
-    pos.x = -1;
-    pos.y = -1;
-    return pos;
 }

@@ -9,7 +9,7 @@
 # define WHITE 1
 # define BLACK 2
 # define MIN_TO_WIN 5
-# define MAX_MINMAX_DEPTH 10
+# define MAX_MINMAX_DEPTH 2
 # define HORIZONTAL_TOP {-1, 0}
 # define HORIZONTAL_BOT {1, 0}
 # define VERTICAL_lEFT {0, -1}
@@ -53,7 +53,8 @@ void add_pawn(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int color)
 
 int place_the_pawn(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int color);
 
-t_position find_nearest_position(int board[BOARD_SIZE][BOARD_SIZE], t_position pos);
+int has_a_pawn_near(int board[BOARD_SIZE][BOARD_SIZE], t_position pos);
 
+void print_board(int board[BOARD_SIZE][BOARD_SIZE]);
 
 #endif //GOMOKU_BOARD_H

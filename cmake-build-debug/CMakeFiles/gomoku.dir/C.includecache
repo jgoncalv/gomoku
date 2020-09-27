@@ -6,9 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/Users/jgoncalv/CLionProjects/gomoku/src/board.c
-board.h
+/Users/jgoncalv/CLionProjects/gomoku/main.c
+stdio.h
+-
+src/board.h
 /Users/jgoncalv/CLionProjects/gomoku/src/board.h
+src/move/move.h
+/Users/jgoncalv/CLionProjects/gomoku/src/move/move.h
 
 /Users/jgoncalv/CLionProjects/gomoku/src/board.h
 stdio.h
@@ -18,11 +22,31 @@ rules/free_threes.h
 rules/captures.h
 /Users/jgoncalv/CLionProjects/gomoku/src/rules/captures.h
 
+/Users/jgoncalv/CLionProjects/gomoku/src/move/evaluate.h
+limits.h
+-
+../board.h
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+
+/Users/jgoncalv/CLionProjects/gomoku/src/move/move.h
+limits.h
+-
+../board.h
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+../rules/has_won_the_game.h
+/Users/jgoncalv/CLionProjects/gomoku/src/rules/has_won_the_game.h
+evaluate.h
+/Users/jgoncalv/CLionProjects/gomoku/src/move/evaluate.h
+
 /Users/jgoncalv/CLionProjects/gomoku/src/rules/captures.h
 ../board.h
 /Users/jgoncalv/CLionProjects/gomoku/src/board.h
 
 /Users/jgoncalv/CLionProjects/gomoku/src/rules/free_threes.h
+../board.h
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+
+/Users/jgoncalv/CLionProjects/gomoku/src/rules/has_won_the_game.h
 ../board.h
 /Users/jgoncalv/CLionProjects/gomoku/src/board.h
 

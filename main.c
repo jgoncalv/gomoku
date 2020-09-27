@@ -2,39 +2,6 @@
 #include "src/board.h"
 #include "src/move/move.h"
 
-static void print_board(int board[BOARD_SIZE][BOARD_SIZE]) {
-    // print column index
-    printf("   ");
-    for (int i = 0; i < BOARD_SIZE; ++i) {
-        int col = i + 1;
-        printf("%d", col);
-        printf(col < 10 ? "  " : " ");
-    }
-    printf("\n");
-
-    // print row index as well as each square on board
-    for (int i = 0; i < BOARD_SIZE; ++i) {
-        char row = 'A' + i;
-        printf("%c  ", row);
-        for (int j = 0; j < BOARD_SIZE; ++j) {
-            char c = ' ';
-            switch (board[i][j]) {
-                case EMPTY :
-                    c = '.';
-                    break;
-                case BLACK :
-                    c = 'x';
-                    break;
-                case WHITE :
-                    c = 'o';
-                    break;
-            }
-            printf("%c  ", c);
-        }
-        printf("\n");
-    }
-}
-
 static char read_char_input() {
     char c;
     while (1) {
@@ -60,20 +27,20 @@ static int read_digit_input() {
 }
 
 static int is_no_winner(int board[BOARD_SIZE][BOARD_SIZE]) {
-    int i = 0;
-    int j;
+    int y = 0;
+    int x;
     t_position  pos;
-    while (i < BOARD_SIZE) {
-        j = 0;
-        while (j < BOARD_SIZE) {
-            pos.y = i;
-            pos.x = j;
+    while (y < BOARD_SIZE) {
+        x = 0;
+        while (x < BOARD_SIZE) {
+            pos.y = y;
+            pos.x = x;
             if (is_pawn_color(board, pos, EMPTY)) {
                 return 0;
             }
-            j++;
+            x++;
         }
-        i++;
+        y++;
     }
     return 1;
 }
@@ -161,6 +128,8 @@ void run() {
 
         robot_position = get_best_move(board, robot_color);
         place_the_pawn(board, robot_position, robot_color);
+        printf("Robot Last Move: y: %c x: %d\n", robot_position.y + 'A', robot_position.x);
+        printf("Robot Last Move: y: %c x: %d\n", player_position.y + 'A', player_position.x);
         print_board(board);
         if (has_won_the_game(board, robot_position, robot_color)) {
             printf("So bad you lost the game ... ;(\n");

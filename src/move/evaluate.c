@@ -86,7 +86,7 @@
 
 static int can_align_5(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int color, t_position dir) {
     t_position eval_pos;
-    int count = 0;
+    int count = 1;
     int count_empty = 0;
     int count_consecutive = 1;
     int is_consecutive = 0;
@@ -99,13 +99,21 @@ static int can_align_5(int board[BOARD_SIZE][BOARD_SIZE], t_position position, i
         if (!is_pawn_in_the_board(eval_pos)) break;
 
         if (is_pawn_color(board, eval_pos, color)) {
+            if (i == 1 || is_consecutive) {
+                is_consecutive = 1;
+                count_consecutive++;
+            }
             count++;
+        } else if (is_pawn_color(board, eval_pos, EMPTY)) {
+            is_consecutive = 0;
+            count_empty++;
         } else {
             break;
         }
         i++;
     }
 
+    is_consecutive = 0;
     i = 1;
     while (i < MIN_TO_WIN) {
         eval_pos.y = position.y - i * dir.y;
@@ -113,90 +121,72 @@ static int can_align_5(int board[BOARD_SIZE][BOARD_SIZE], t_position position, i
         if (!is_pawn_in_the_board(eval_pos)) break;
 
         if (is_pawn_color(board, eval_pos, color)) {
+            if (i == 1 || is_consecutive) {
+                is_consecutive = 1;
+                count_consecutive++;
+            }
             count++;
+        } else if (is_pawn_color(board, eval_pos, EMPTY)) {
+            is_consecutive = 0;
+            count_empty++;
         } else {
             break;
         }
         i++;
     }
-    if (count == 2) {
-//        printf("WHAT %d %d %d %d %d\n", i, count, color, eval_pos.x, eval_pos.y);
-    }
-
-    return count;
-
-//    while (i < MIN_TO_WIN) {
-//        eval_pos.y = position.y + i * dir.y;
-//        eval_pos.x = position.x + i * dir.x;
-//
-//        if (!is_pawn_in_the_board(eval_pos)) {
-//            break;
-//        }
-//        if (is_pawn_color(board, eval_pos, color)) {
-//            count++;
-//            if (i == 1 || is_consecutive) {
-//                count_consecutive++;
-//                is_consecutive = 1;
-//            }
-//        } else {
-//            is_consecutive = 0;
-//        }
-//
-//        if (is_pawn_color(board, eval_pos, EMPTY)) {
-//            count_empty++;
-//        }
-//        if (is_pawn_color(board, eval_pos, opposite_color)) {
-//            break;
-//        }
-//        i++;
-//    }
-//
-//    i = 1;
-//    is_consecutive = 0;
-//    while (i > 0) {
-//        eval_pos.y = position.y - i * dir.y;
-//        eval_pos.x = position.x - i * dir.x;
-//
-//        if (!is_pawn_in_the_board(eval_pos)) break;
-//        if (is_pawn_color(board, eval_pos, color)) {
-//            count++;
-//            if (i == 1 || is_consecutive) {
-//                count_consecutive++;
-//                is_consecutive = 1;
-//            }
-//        } else {
-//            is_consecutive = 0;
-//        }
-//
-//        if (is_pawn_color(board, eval_pos, EMPTY)) {
-//            count_empty++;
-//        }
-//        if (is_pawn_color(board, eval_pos, opposite_color)) {
-//            break;
-//        }
-//        i++;
-//    }
 
     if (count_empty + count >= MIN_TO_WIN) {
-        if (count_consecutive >= MIN_TO_WIN - 1) {
-            return 100000 * count;
+        if (count >= MIN_TO_WIN) {
+            if (count_consecutive >= MIN_TO_WIN) {
+                return INT_MAX; // 10 000 000
+            }
+            if (count_consecutive == 1) {
+                return 1000000; // 1 000 000
+            }
+            if (count_consecutive == 2) {
+                return 100000; // 100 000
+            }
+            return 10000;// 10 000
         }
-
-        if (count_consecutive == 3) {
-            return 300 * count + count_empty;
+        if (count == 4) {
+            if (count_consecutive == 4) {
+                return 1000000; // 1 000 000
+            }
+            if (count_consecutive == 3) {
+                return 100000; // 100 000
+            }
+            if (count_consecutive == 2) {
+                return 10000; // 10 000
+            }
+            return 1000;
         }
-        if (count_consecutive == 2) {
-            return 30 * count + count_empty;
+        if (count == 3) {
+            if (count_consecutive == 3) {
+                return 10000; // 10 000
+            }
+            if (count_consecutive == 2) {
+                return 1000; // 1 000
+            }
+            return 100;
         }
-
-        return count * 10 + count_empty;
+        if (count == 2) {
+            if (count_consecutive == 2) {
+                return 100; // 100
+            }
+            return 10;
+        }
+        if (count == 1) {
+            return 1;
+        }
     }
-    return 0;
+    return count;
 }
 
 int evaluate(int board[BOARD_SIZE][BOARD_SIZE], t_position position, int color) {
-    return can_align_5(board, position, color, g_directions.diagonal_top_right) +
+    int count = can_align_5(board, position, color, g_directions.diagonal_top_right) +
     can_align_5(board, position, color, g_directions.diagonal_top_left) +
     can_align_5(board, position, color, g_directions.horizontal_top) +
     can_align_5(board, position, color, g_directions.vertical_left);
+
+    return count;
 }
