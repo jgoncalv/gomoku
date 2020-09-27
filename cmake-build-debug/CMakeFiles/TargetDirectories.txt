@@ -1,0 +1,3 @@
+/Users/jgoncalv/CLionProjects/gomoku/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/jgoncalv/CLionProjects/gomoku/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/jgoncalv/CLionProjects/gomoku/cmake-build-debug/CMakeFiles/gomoku.dir

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jgoncalv/CLionProjects/gomoku/src/board.c
+board.h
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+stdio.h
+-
+rules/free_threes.h
+/Users/jgoncalv/CLionProjects/gomoku/src/rules/free_threes.h
+rules/captures.h
+/Users/jgoncalv/CLionProjects/gomoku/src/rules/captures.h
+
+/Users/jgoncalv/CLionProjects/gomoku/src/rules/captures.h
+../board.h
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+
+/Users/jgoncalv/CLionProjects/gomoku/src/rules/free_threes.h
+../board.h
+/Users/jgoncalv/CLionProjects/gomoku/src/board.h
+
